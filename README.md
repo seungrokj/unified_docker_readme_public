@@ -1,4 +1,4 @@
-${\textsf{\color{magenta}This repo will be also available at }}$  https://github.com/ROCm/MAD soon
+${\textsf{\color{magenta}This repo will be also available at }}$ https://github.com/ROCm/MAD ${\textsf{\color{magenta} soon}}$ 
 
 # LLM inference performance validation with vLLM on the AMD Instinct MI300X accelerator
 
