@@ -1,4 +1,6 @@
-${\textsf{\color{magenta}This repo will be moved to https://github.com/ROCm/MAD}}$
+```diff
+# This repo will be moved to https://github.com/ROCm/MAD soon
+```
 
 # LLM inference performance validation with vLLM on the AMD Instinct MI300X accelerator
 
