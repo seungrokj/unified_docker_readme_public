@@ -48,9 +48,9 @@ The following command pulls the Docker image from Docker Hub and
 launches a new Docker instance (*vllm\_mi300x*).
 
 ```sh
-docker pull ROCM6.2_vLLM_rel0.1(TODO:update)
+docker pull rocm/pytorch-private:20240827_exec_dashboard_unified_rc6_withvllm
 
-docker run -it --device=/dev/kfd --device=/dev/dri --group-add video -p 8080:8080 --shm-size 16G --security-opt seccomp=unconfined --security-opt apparmor=unconfined --cap-add=SYS_PTRACE -v $(pwd):/workspace --env HUGGINGFACE_HUB_CACHE=/workspace ROCM6.2_vLLM_rel0.1(TODO:update)
+docker run -it --device=/dev/kfd --device=/dev/dri --group-add video -p 8080:8080 --shm-size 16G --security-opt seccomp=unconfined --security-opt apparmor=unconfined --cap-add=SYS_PTRACE -v $(pwd):/workspace --env HUGGINGFACE_HUB_CACHE=/workspace --name unified_docker_vllm rocm/pytorch-private:20240827_exec_dashboard_unified_rc6_withvllm
 ```
 
 ### LLM performance settings
@@ -87,8 +87,8 @@ export PYTORCH_TUNABLEOP_FILENAME=/pre-tuned/afo_tune_device_%d_full.csv
 Copy the performance benchmarking scripts from GitHub to a local directory.
 
 ```sh
-git clone https://github.com/ROCm/unified_docker_benchmark # move to the public rocm repo (TODO:update)
-cd unified_docker_benchmark
+git clone https://github.com/seungrokj/unified_docker_benchmark_public # TODO: this repo will be also available at https://github.com/ROCm/MAD soon
+cd unified_docker_benchmark_public
 ```
 
 ### Methodology
