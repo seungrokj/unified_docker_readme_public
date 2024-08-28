@@ -102,6 +102,13 @@ Use the following command and variables to run the benchmark tests.
 ```
 
 Note: The input sequence length, output sequence length, and tensor parallel (TP) are already configured. You don't need to specify them with this script.
+Note: If you encounter this error, you need to pass your access-authorized huggingface token to the gated models.
+```sh
+OSError: You are trying to access a gated repo.
+
+# pass your HF_TOKEN
+export HF_TOKEN=$your_personal_hf_token
+```
 
 #### Variables
 
