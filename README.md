@@ -9,9 +9,7 @@ vLLM is a toolkit and library for large language model (LLM) inference and servi
 deploys the PagedAttention algorithm, which reduces memory consumption
 and increases throughput by leveraging dynamic key and value allocation
 in GPU memory. vLLM also incorporates many recent LLM acceleration and
-quantization algorithms, such as fp8 GeMM, fp8 KV cache, continuous
-batching, flash attention, hip graph, tensor parallel, GPTQ, AWQ, and
-token speculation. In addition, AMD implements high-performance custom
+quantization algorithms. In addition, AMD implements high-performance custom
 kernels and modules in vLLM to enhance performance further.
 
 This Docker image packages vLLM with PyTorch for an AMD Instinct™ MI300X
@@ -103,16 +101,12 @@ export HF_TOKEN=$your_personal_hf_token
 |              | meta-llama/Meta-Llama-3.1-70B-Instruct  | Llama 3.1 70B                                    |
 |              | meta-llama/Meta-Llama-3.1-405B-Instruct | Llama 3.1 405B                                   |
 |              | meta-llama/Llama-2-7b-chat-hf           | Llama 2 7B                                       |
-|              | meta-llama/Llama-2-70b-chat-hf          | Llama 2 70B                                      |
-|              | mistralai/Mixtral-8x7B-Instruct-v0.1    | Mixtral 8x7B                                     |
-|              | mistralai/Mixtral-8x22B-Instruct-v0.1   | Mixtral 8x22B                                    |
 |              | mistralai/Mistral-7B-Instruct-v0.3      | Mistral 7B                                       |
 |              | Qwen/Qwen2-7B-Instruct                  | Qwen2 7B                                         |
-|              | Qwen/Qwen2-72B-Instruct                 | Qwen2 72B                                        |
 |              | core42/jais-13b-chat                    | JAIS 13B                                         |
 |              | core42/jais-30b-chat-v3                 | JAIS 30B                                         |
-| $num_gpu     | 1 to 8                                  | Number of GPUs.                                  |
-| $datatype    | float16, float8                         | Only FP16 datatype is available in this release. |
+| $num_gpu     | 1 or 8                                  | Number of GPUs.                                  |
+| $datatype    | float16                                 |                                                  |
                                                               
 
 #### Run the benchmark tests on the MI300X accelerator 🏃
