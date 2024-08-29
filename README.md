@@ -48,39 +48,16 @@ The following command pulls the Docker image from Docker Hub and
 launches a new Docker instance (*vllm\_mi300x*).
 
 ```sh
-docker pull rocm/pytorch-private:20240827_exec_dashboard_unified_rc6_withvllm # TODO: update to the final public image
-
-docker run -it --device=/dev/kfd --device=/dev/dri --group-add video -p 8080:8080 --shm-size 16G --security-opt seccomp=unconfined --security-opt apparmor=unconfined --cap-add=SYS_PTRACE -v $(pwd):/workspace --env HUGGINGFACE_HUB_CACHE=/workspace --name unified_docker_vllm rocm/pytorch-private:20240827_exec_dashboard_unified_rc6_withvllm
+docker pull rocm/pytorch-private:20240828_exec_dashboard_unified_vllm_v7 # TODO: update to the final public image
+docker run -it --device=/dev/kfd --device=/dev/dri --group-add video -p 8080:8080 --shm-size 16G --security-opt seccomp=unconfined --security-opt apparmor=unconfined --cap-add=SYS_PTRACE -v $(pwd):/workspace --env HUGGINGFACE_HUB_CACHE=/workspace --name unified_docker_vllm rocm/pytorch-private:20240828_exec_dashboard_unified_vllm_v7
 ```
 
 ### LLM performance settings
 
 Some environment variables enhance the performance of the vLLM kernels
-and PyTorch's tunableOp on the MI300X accelerator. The settings below
-are already preconfigured in the Docker image. See the
-[AMD Instinct MI300X workload optimization](https://rocm.docs.amd.com/en/latest/how-to/tuning-guides/mi300x/workload.html) guide for more information.
-
--   vLLM performance settings
-
-```sh
-export HIP_FORCE_DEV_KERNARG=1
-export VLLM_USE_ROCM_CUSTOM_PAGED_ATTN=1
-export VLLM_USE_TRITON_FLASH_ATTN=0
-export VLLM_INSTALL_PUNICA_KERNELS=1
-export TOKENIZERS_PARALLELISM=false
-export RAY_EXPERIMENTAL_NOSET_ROCR_VISIBLE_DEVICES=1
-export NCCL_MIN_NCHANNELS=112
-```
-
--   PyTorch tunableOp settings
-
-```sh
-export PYTORCH_TUNABLEOP_ENABLED=1
-export PYTORCH_TUNABLEOP_TUNING=0
-export PYTORCH_TUNABLEOP_VERBOSE=0
-export PYTORCH_TUNABLEOP_NUMERICAL_CHECK=0
-export PYTORCH_TUNABLEOP_FILENAME=/pre-tuned/afo_tune_device_%d_full.csv
-```
+and PyTorch's tunableOp on the MI300X accelerator. 
+The docker image is already preconfigured to include the performance settings. 
+See the [AMD Instinct MI300X workload optimization](https://rocm.docs.amd.com/en/latest/how-to/tuning-guides/mi300x/workload.html) guide for more information.
 
 ### Copy the repository from GitHub
 
