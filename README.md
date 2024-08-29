@@ -42,6 +42,10 @@ cat /proc/sys/kernel/numa_balancing
 0
 ```
 
+### Multiprocessing distributed executor
+
+To optimize performance, We recommend using multiprocessing API server argument. Adding the `--distributed-executor-backend mp` does so.
+
 ### Download the Docker image 🐳
 
 The following command pulls the Docker image from Docker Hub and
