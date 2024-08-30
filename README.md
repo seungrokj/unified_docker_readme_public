@@ -40,10 +40,6 @@ cat /proc/sys/kernel/numa_balancing
 0
 ```
 
-### Multiprocessing distributed executor
-
-To optimize performance, We recommend using multiprocessing API server argument. Adding the `--distributed-executor-backend mp` does so.
-
 ### Download the Docker image 🐳
 
 The following command pulls the Docker image from Docker Hub and
@@ -60,6 +56,10 @@ Some environment variables enhance the performance of the vLLM kernels
 and PyTorch's tunableOp on the MI300X accelerator. 
 The docker image is already preconfigured to include the performance settings. 
 See the [AMD Instinct MI300X workload optimization](https://rocm.docs.amd.com/en/latest/how-to/tuning-guides/mi300x/workload.html) guide for more information.
+
+### Multiprocessing distributed executor
+
+To optimize vLLM performance, We recommend using multiprocessing API server argument. Adding the `--distributed-executor-backend mp` does so.
 
 ### Copy the repository from GitHub
 
