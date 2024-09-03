@@ -20,6 +20,10 @@ accelerator. It includes:
 -   ✅ PyTorch 2.4 
 -   ✅ Tuning files (.csv format)
 
+With this docker image, the users can quickly validate expected inference performance numbers on the MI 300 accelerator. 
+We also provide tips and techniques so that users can get optimal performance with popular AI models.
+
+
 ## Reproducing benchmark results 🚀
 -----------------------------
 
