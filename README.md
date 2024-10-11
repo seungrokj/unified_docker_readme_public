@@ -15,9 +15,9 @@ kernels and modules in vLLM to enhance performance further.
 This Docker image packages vLLM with PyTorch for an AMD Instinct™ MI300X
 accelerator. It includes:
 
--   ✅ ROCm™ 6.2
--   ✅ vLLM 0.4.3
--   ✅ PyTorch 2.4 
+-   ✅ ROCm™ 6.2.1
+-   ✅ vLLM 0.6.3
+-   ✅ PyTorch 2.5.0
 -   ✅ Tuning files (.csv format)
 
 With this docker image, the users can quickly validate expected inference performance numbers on the MI 300 accelerator. 
@@ -50,8 +50,8 @@ The following command pulls the Docker image from Docker Hub and
 launches a new Docker instance (*vllm\_mi300x*).
 
 ```sh
-docker pull rocm/pytorch-private:20240828_exec_dashboard_unified_vllm_v7 # TODO: update to the final public image
-docker run -it --device=/dev/kfd --device=/dev/dri --group-add video -p 8080:8080 --shm-size 16G --security-opt seccomp=unconfined --security-opt apparmor=unconfined --cap-add=SYS_PTRACE -v $(pwd):/workspace --env HUGGINGFACE_HUB_CACHE=/workspace --name unified_docker_vllm rocm/pytorch-private:20240828_exec_dashboard_unified_vllm_v7
+docker pull rocm/vllm-dev:vllm-20241009-tuned # TODO: update to the final public image
+docker run -it --device=/dev/kfd --device=/dev/dri --group-add video -p 8080:8080 --shm-size 16G --security-opt seccomp=unconfined --security-opt apparmor=unconfined --cap-add=SYS_PTRACE -v $(pwd):/workspace --env HUGGINGFACE_HUB_CACHE=/workspace --name unified_docker_vllm rocm/vllm-dev:vllm-20241009-tuned
 ```
 
 ### LLM performance settings
@@ -102,16 +102,24 @@ export HF_TOKEN=$your_personal_hf_token
 |              | throughput                              | Measure token generation throughput              |
 |              | all                                     | Measure both throughput and latency              |
 | $model_repo  | meta-llama/Meta-Llama-3.1-8B-Instruct   | Llama 3.1 8B                                     |
-|              | meta-llama/Meta-Llama-3.1-70B-Instruct  | Llama 3.1 70B                                    |
+| (float16)    | meta-llama/Meta-Llama-3.1-70B-Instruct  | Llama 3.1 70B                                    |
 |              | meta-llama/Meta-Llama-3.1-405B-Instruct | Llama 3.1 405B                                   |
 |              | meta-llama/Llama-2-7b-chat-hf           | Llama 2 7B                                       |
+|              | meta-llama/Llama-2-70b-chat-hf          | Llama 2 70B                                      |
+|              | mistralai/Mixtral-8x7B-Instruct-v0.1    | Mistral 8x7B                                     |
+|              | mistralai/Mixtral-8x22B-Instruct-v0.1   | Mistral 8x22B                                    |
 |              | mistralai/Mistral-7B-Instruct-v0.3      | Mistral 7B                                       |
 |              | Qwen/Qwen2-7B-Instruct                  | Qwen2 7B                                         |
+|              | Qwen/Qwen2-72B-Instruct                 | Qwen2 72B                                        |
 |              | core42/jais-13b-chat                    | JAIS 13B                                         |
 |              | core42/jais-30b-chat-v3                 | JAIS 30B                                         |
+| $model_repo  | amd/Meta-Llama-3.1-8B-Instruct-FP8-KV   | Llama 3.1 8B                                     |
+| (float8)     | amd/Meta-Llama-3.1-70B-Instruct-FP8-KV  | Llama 3.1 70B                                    |
+|              | amd/Meta-Llama-3.1-405B-Instruct-FP8-KV | Llama 3.1 405B                                   |
+|              | amd/Mixtral-8x7B-Instruct-v0.1-FP8-KV   | Mistral 8x7B                                     |
+|              | amd/Mixtral-8x22B-Instruct-v0.1-FP8-KV  | Mistral 8x22B                                    |
 | $num_gpu     | 1 or 8                                  | Number of GPUs.                                  |
-| $datatype    | float16                                 |                                                  |
-                                                              
+| $datatype    | float16, float8                         |                                                  |
 
 #### Run the benchmark tests on the MI300X accelerator 🏃
 
@@ -119,23 +127,27 @@ Here are some examples and the test results:
 
 -   Benchmark example - latency
  
-Use this command to benchmark the latency of the Llama 3.1 8B model on one GPU with the float16 data type.
+Use this command to benchmark the latency of the Llama 3.1 8B model on one GPU with the float16 and float8 data type.
 
 ```sh
 ./vllm_benchmark_report.sh -s latency -m meta-llama/Meta-Llama-3.1-8B-Instruct -g 1 -d float16
+./vllm_benchmark_report.sh -s latency -m amd/Meta-Llama-3.1-8B-Instruct-FP8-KV -g 1 -d float8
 ```
 
-You can find the latency report at *./reports_float16/ Meta-Llama-3.1-8B-Instruct_latency_report.csv*.
+You can find the latency report at *./reports_float16/summary/Meta-Llama-3.1-8B-Instruct_latency_report.csv*.
+You can find the latency report at *./reports_float8/summary/Meta-Llama-3.1-8B-Instruct-FP8-KV_latency_report.csv*.
 
 -   Benchmark example - throughput
 
-Use this command to benchmark the throughput of the Llama 3.1 8B model on one GPU with the fp16 data type.
+Use this command to benchmark the throughput of the Llama 3.1 8B model on one GPU with the float16 and float8 data type.
 
 ```sh
 ./vllm_benchmark_report.sh -s throughput -m meta-llama/Meta-Llama-3.1-8B-Instruct -g 1 -d float16
+./vllm_benchmark_report.sh -s throughput -m amd/Meta-Llama-3.1-8B-Instruct-FP8-KV -g 1 -d float8
 ```
 
-You can find the throughput report at *./reports_float16/ Meta-Llama-3.1-8B-Instruct_throughput_report.csv*.
+You can find the throughput report at *./reports_float16/summary/Meta-Llama-3.1-8B-Instruct_throughput_report.csv*.
+You can find the throughput report at *./reports_float8/summary/Meta-Llama-3.1-8B-Instruct-FP8-KV_throughput_report.csv*.
 
 -   throughput\_tot = requests \* (**input lengths + output lengths**) / elapsed\_time
 
