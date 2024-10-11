@@ -51,7 +51,7 @@ launches a new Docker instance (*vllm\_mi300x*).
 
 ```sh
 docker pull rocm/vllm-dev:vllm-20241009-tuned # TODO: update to the final public image
-docker run -it --device=/dev/kfd --device=/dev/dri --group-add video -p 8080:8080 --shm-size 16G --security-opt seccomp=unconfined --security-opt apparmor=unconfined --cap-add=SYS_PTRACE -v $(pwd):/workspace --env HUGGINGFACE_HUB_CACHE=/workspace --name unified_docker_vllm rocm/vllm-dev:vllm-20241009-tuned
+docker run -it --device=/dev/kfd --device=/dev/dri --group-add video --shm-size 128G --security-opt seccomp=unconfined --security-opt apparmor=unconfined --cap-add=SYS_PTRACE -v $(pwd):/workspace --env HUGGINGFACE_HUB_CACHE=/workspace --name unified_docker_vllm rocm/vllm-dev:vllm-20241009-tuned
 ```
 
 ### LLM performance settings
